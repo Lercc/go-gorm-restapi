@@ -1,17 +1,26 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
+	"log"
 	"net/http"
+	"os"
+
+	"github.com/Lercc/go-gorm-restapi/db"
+	"github.com/Lercc/go-gorm-restapi/env"
+	"github.com/Lercc/go-gorm-restapi/routes"
 )
 
 func main() {
+	// Cargar variables
+	env.LoadEnvironmentVariables()
 
-	router := mux.NewRouter()
+	// Iniciar conexion a DB
+	db.InitConnection()
+	
+	// Router
+	router := routes.MuxRouter()
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("gola"))
-	})
-
-	http.ListenAndServe(":8082", router)
+	PORT := os.Getenv("APP_PORT")
+	log.Println("SERVER ON PORT :" + PORT)
+	http.ListenAndServe(":" + PORT, router)
 }

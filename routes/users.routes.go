@@ -17,8 +17,16 @@ func GetUsersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	w.Write([]byte("GetUserHandler" + vars["user"]))
+	var user models.User
+	params := mux.Vars(r)
+	db.DBConnection.Find(&user, params["user"])
+
+	if user.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("User not found"))
+	}
+
+	json.NewEncoder(w).Encode(&user)
 }
 
 func StoreUserHandler(w http.ResponseWriter, r *http.Request) {

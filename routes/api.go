@@ -2,10 +2,12 @@ package routes
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/Lercc/go-gorm-restapi/middleware"
 )
 
 func MuxRouter() *mux.Router {
 	router := mux.NewRouter()
+    router.Use(middleware.ContentTypeApplicationJsonMiddleware)
 
 	router.HandleFunc("/", HomeHandler)
 	

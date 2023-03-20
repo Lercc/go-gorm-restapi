@@ -7,6 +7,7 @@ import (
 
 	"github.com/Lercc/go-gorm-restapi/db"
 	"github.com/Lercc/go-gorm-restapi/env"
+	"github.com/Lercc/go-gorm-restapi/models"
 	"github.com/Lercc/go-gorm-restapi/routes"
 )
 
@@ -16,6 +17,8 @@ func main() {
 
 	// Iniciar conexion a DB
 	db.InitConnection()
+
+	db.DBConnection.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(models.User{}, models.Task{})
 	
 	// Router
 	router := routes.MuxRouter()

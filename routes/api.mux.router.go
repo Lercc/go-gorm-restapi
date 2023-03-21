@@ -20,7 +20,8 @@ func ApiMuxRoutes(router *mux.Router) {
 	apiRouter.HandleFunc("/users", user.StoreUser).Methods("POST")
 	apiRouter.HandleFunc("/users/{user}", user.UpdateUser).Methods("PUT")
 	apiRouter.HandleFunc("/users/{user}", user.DeleteUser).Methods("DELETE")
-
+	// USER-TASK
+	apiRouter.HandleFunc("/users/{user}/tasks", user.GetUserTasks).Methods("GET")
 	// TASK
 	apiRouter.HandleFunc("/tasks", task.GetAllTasks).Methods("GET")
 	apiRouter.HandleFunc("/tasks/{task}", task.GetTask).Methods("GET")
